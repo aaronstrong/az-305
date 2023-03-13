@@ -1,6 +1,6 @@
 # Microsoft Azure 305 (AZ-305) Exam Notes
 
-These are my notes for studying for the AZ-400 exam.
+These are my notes for studying for the AZ-305 exam.
 
 | | |
 | --- | --- |
