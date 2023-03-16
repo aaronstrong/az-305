@@ -197,3 +197,145 @@ A role assignment is an Azure AD resource that attaches a role definition to a s
 The following diagram shows an example of a role assignment. In this example, Chris has been assigned the App Registration Administrator custom role at the scope of the Contoso Widget Builder app registration. The assignment grants Chris the permissions of the App Registration Administrator role for only this specific app registration.
 
 ![](https://learn.microsoft.com/en-us/azure/active-directory/roles/media/custom-overview/rbac-overview.png)
+
+---
+
+# Identity Security
+# Identities with Azure AD Identity Protection
+
+![](https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/media/overview-identity-protection/identity-protection-overview.png)
+
+**Overview**
+
+Identity Protection allows organizations to accomplish three key tasks:
+
+* Automate the detection and remediation of identity-based risks.
+* Investigate risks using data in the portal.
+* Export risk detection data to other tools.
+
+**Detect Risks**
+
+Identity Protection detects risks of many types, including:
+
+* Anonymous IP address use
+* Atypical travel
+* Malware linked IP address
+* Unfamiliar sign-in properties
+* Leaked Credentials
+* Password spay
+
+**Required Roles**
+
+Identity Protection requires users be a Security Reader, Security Operator, Security Administrator, Global Reader, or Global Administrator in order to access.
+
+**License Requirements**
+
+| Capability | Details | Azure AD P1 | Azure AD P2 |
+| --- | --- | :-: | :-: |
+| Risk Policies | Sign-in and user risk policies | No | Yes |
+| Security Reports | Overview | No | Yes |
+| Security Reports | Risky Users | Limited Info. Only users with medium and high risk are show. | Full access |
+|  Security Reports | Risky sign-ins | Limited. No risk detail or risk level is shown | Full Access |
+| Security Reports | Risky detections | Limited | Full access |
+| Notifications | Users at risk deted alerts | No | Yes |
+| Notifications | Weekly digest | No | Yes |
+| MFA registration policy | | No | Yes|
+
+* *Azure AD and Microsoft 365 Apps have no capabilities*
+
+**Sign-in Risk Policy**
+
+- **Real-Time Detection** - Takes affect in real time. These policies can be used to block a sign-in as it occurs.
+- **Assignment** - Describes when the policy will trigger. This includes defining the applicable users/groups and the risk level condition.
+- **Control** - Describes what to do when the policy triggers. The action can be to block or allow a sign-in, or allow access but require MFA.
+
+**User Risk Policy**
+
+- **Offline detection** - Takes effect offline. These policies can identiy user accounts that are found to be at risk
+- **Assignment** - describes when the policy will trigger. THis includes defining the application user/groups and the risk level condition.
+- **Control** - Describes what to do when the policy triggers. The action can be to block or allow access, or force a password change.
+
+---
+
+# Protecting Resource with AAD Conditional Access
+
+![](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/media/overview/conditional-access-overview-how-it-works.png)
+
+Conditional Access brings signals together, to make decisions, and enforce organizational policies. Azure AD Conditional Access is at the heart of the new identity-driven control plane.
+
+Conditional Access policies at their simplest are if-then statements, if a user wants to access a resource, then they must complete an action.
+
+<u>Example</u>
+
+A payroll manager wants to access the payroll application and is required to do multifactor authentication to access it.
+
+Administrators are faced with two primary goals:
+
+1. Empower users to be productive wherever and whenever
+1. Protect the organization's assets
+
+## [Common Signals](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/overview)
+
+Common signals that Conditional Access can take in to account when making a policy decision include the following signals:
+
+* User or group Membership
+    * Policies can be targeted to specific users and groups for fine grained control
+* IP Location
+    * Create trusted IP address ranges
+    * Admins can specify entire countries/regions IP range to block or allow
+* Device
+    * Users with devices of specific platforms or specific state can be used when enforcing Conditional Access policies.
+    * Use filters for devices to target policies to specific devices
+* Real-time and calculated risk detection
+    * Signals integration with AZ AD Identity Protection allows Conditional Access policies to identify risky sign-in behavior.
+
+## License Requirements
+
+* Using this feature requires Azure AD P1 licenses.
+* Customers with Microsoft 365 Business Premium also have access
+* Risk-based policies require access to Identity Protection, which is an Azure AD P2 feature.
+
+## [Reporting](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/howto-conditional-access-insights-reporting)
+
+Using Conditional Access, there is a chance you can lock your self out of the environment. To help prevent this action, first put the new condtiion in [`report-only`](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/concept-conditional-access-report-only) mode to understand the impact of the Conditional Access policy.
+
+### Example
+
+Look at this [video on setting up Conditional Access](https://youtu.be/5DsW1hB3Jqs)
+
+---
+
+# Azure AD Privileged Identity Management (PIM)
+
+Azure AD PIM is a Premium feature that enables you to limit standing admin access to privileged roles.
+
+You can manage just-in-time assignments to all Azure AD roles and all Azure roles using Privileged Identity Management (PIM) in Azure Active Directory (Azure AD).
+* Meaning - As a Global Admin, you can timebox certain roles and then assign them to a user. Example would be Uesr1 requires a higher AD role. Instead of granting User1 the role directory, you can 
+    * Time box it.
+    * Set a start and end date
+    * [Limit usage for X minutes/hours/days.](https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-how-to-change-default-settings)
+    * Or [request approval](https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/azure-ad-pim-approval-workflow) to use the role and then a Global Admin can approve request.
+
+
+## License Requirements
+
+* PIM requires Azure AD P2 or EMS E5 licensing
+
+---
+
+# Design Identity Governance (Access Reviews)
+
+![](https://learn.microsoft.com/en-us/azure/active-directory/governance/media/identity-governance-overview/privileged-access-lifecycle.png)
+
+Access reviews in Azure Active Directory (Azure AD), enable organizations to efficiently manage group memberships, access to enterprise applications, and role assignments. User's access can be reviewed regularly to make sure only the right people have continued access.
+
+Access to groups and applications for employees and guests changes over time. To reduce the risk associated with stale access assignments, administrators can use Azure Active Directory (Azure AD) to create access reviews for group members or application access.
+
+Great service to automatically, through repeated schedules, set up reviews for users and their access. Give end users a specific amount of time to respond. Collect the feedback and take action.
+
+[Here a quick example](https://learn.microsoft.com/en-us/azure/active-directory/governance/create-access-review#create-a-single-stage-access-review)
+
+
+## License Requirements
+
+* PIM requires Azure AD P2
