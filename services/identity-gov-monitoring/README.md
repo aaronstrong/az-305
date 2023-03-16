@@ -118,3 +118,82 @@ With External Identities, external users can "bring their own identities." Wheth
 
 ---
 
+# Azure Roles and AD Roles
+
+## Describing RBAC
+
+- Who = Security Principals - could be a single identity, a group, a service principal, or managed identity
+- What = Roles Definiation and permissions - Use of built-in roles likes Owner/Contributor and VM Contributor / Custom Role
+- Where = Scope - applied at the Management Group, Subscription, RG or Resource.
+
+Principals (Users) are assigned roles which then give them permissions to designated resources.
+
+
+## Describe Azure Roles
+
+![](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-setup-guide/media/organize-resources/scope-levels.png)
+
+> **Note**: Remember permissions flow down the hierarchy. 
+
+**Common Roles**
+| Built-in "General" Roles | Description |
+| --- | --- |
+| **Owner** | Grants full access to manage all resources, including the ability to assign roles in Azure RBAC. |
+| **Contributor** | Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries. |
+| **Reader** | View all resources, but does not allow you to make any changes. |
+| **User Access Administrator** | Lets you manage user access to Azure resources. |
+
+Other common roles used:
+
+- `Virtual Machine Contributor` - Create and manage virtual machines, manage disks, install software, reset password of the root VM. Does not grant management access to VNet or storage account. This role does not allow you to assign roles in Azure RBAC.
+- `Storage Account Contributor` - Permits management of storage accounts. Provides access to the account key, which can be used to access data via Shared Key authorization.
+- `Network Contributor` - Lets you manage networks, but not access to them.
+- `Security Reader` - View permissions for Microsoft Defender for Cloud. Can view recommendations, alerts, a security policy, and security states, but cannot make changes.
+
+
+[Full list of Azure RBAC roles here.](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles)
+
+
+## Describe Azure AD Roles
+
+**Common Roles**
+- `global administrator` - Can manage ALL Azure AD resources
+- `billing administrator` - Can perform billing tasks
+- `user administrator` - Can manage users and groups
+- `help desk administrator` - Can reset passwords for users
+- `global reader` - Can read everything a global admin can, but not update anything
+
+[Full list here](https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference)
+
+## Azure Roles vs Azure AD Roles
+
+| Azure AD Roles                                                             | Azure Roles                                                    |
+|----------------------------------------------------------------------------|----------------------------------------------------------------|
+| Manage access to Azure AD resources                                        | Manage access to Azure Resources                               |
+| Scope is at tenant level                                                   | Scope can be at multiple levels                                |
+| Supports custom roles                                                      | Supports custom roles                                          |
+| Main Roles: - Global Admins - User Admins - Billing Admins - Global Reader | Main Roles: - Owner - Contributor - Reader - User Access Admin |
+
+![](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/281467i6699E54FC52CE4D5/image-size/large?v=v2&px=999)
+
+## Custom Roles
+
+You can create custom roles in Azure  and in Azure AD
+
+### Azure Custom Roles
+
+If the Azure built-in roles don't meet the specific needs of your organization, you can create your own custom roles. Just like built-in roles, you can assign custom roles to users, groups, and service principals at management group (in preview only), subscription, and resource group scopes.
+
+Custom roles can be shared between subscriptions that trust the same Azure AD tenant. There is a limit of 5,000 custom roles per tenant. 
+
+### Azure Active Directory Custom Roles
+
+Granting permission using custom Azure AD roles is a two-step process that involves creating a custom role definition and then assigning it using a role assignment. A custom role definition is a collection of permissions that you add from a preset list.
+
+A role assignment is an Azure AD resource that attaches a role definition to a security principal at a particular scope to grant access to Azure AD resources.
+
+#### Example
+
+The following diagram shows an example of a role assignment. In this example, Chris has been assigned the App Registration Administrator custom role at the scope of the Contoso Widget Builder app registration. The assignment grants Chris the permissions of the App Registration Administrator role for only this specific app registration.
+
+![](https://learn.microsoft.com/en-us/azure/active-directory/roles/media/custom-overview/rbac-overview.png)
