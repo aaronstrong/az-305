@@ -49,7 +49,7 @@ You create custom routes by either creating user-defined routes (static), or by 
 *Border Gateway Protocol*
 
 An on-premises network gateway can exchange routes with an Azure virtual network gateway using the border gateway protocol (BGP), dependent on the type you selected when you created the gateway. If the type you selected were:
-* **ExporessRoute**:  You must use BGP to advertise on-premises routes to the Microsoft Edge router. You can't create user-defined routes to force traffic to the ExpressRoute virtual network gateway if you deploy a virtual network gateway deployed as type: ExpressRoute. You can use user-defined routes for forcing traffic from the Express Route to, for example, a Network Virtual Appliance.
+* **ExpressRoute**:  You must use BGP to advertise on-premises routes to the Microsoft Edge router. You can't create user-defined routes to force traffic to the ExpressRoute virtual network gateway if you deploy a virtual network gateway deployed as type: ExpressRoute. You can use user-defined routes for forcing traffic from the Express Route to, for example, a Network Virtual Appliance.
 * **VPN**: You can, optionally use BGP.
 
 ER and VPN Gateway route propagation can be disabled on a subnet using a property on a route table. When route propagation is disabled, routes aren't added to the route table of all subnets with Virtual network gateway route propagation disabled (both static routes and BGP routes).
