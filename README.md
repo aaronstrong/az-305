@@ -27,3 +27,11 @@ Skills Measured as of Oct 8, 2022
 | --- | --- |
 | Notes | [My Notes on services](./services/README.md) |
 | Labs | [Code or ways to reproduce a particular service](./labs/README.md) |
+
+
+## Self Learning Videos
+
+|  |  |
+| --- | --- |
+| FreeCodeCamp.org | [AZ 305 Solutions Architect Exam - 9:55:05 - Released Nov, 2023](./https://www.youtube.com/watch?v=i6NzKvGUsBs) |
+| John Savill | [AZ 305 Designing Azure Infrastructure - 3:38:34 - Released Nov, 2021](https://www.youtube.com/watch?v=vq9LuCM4YP4) |
