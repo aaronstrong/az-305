@@ -8,6 +8,15 @@ Azure Active Directory is at the heart of everything when it comes to Authentica
 
 ## Azure AD Refresh!
 
+### Azure AD Versions
+
+| Version | Features |
+| --- | --- |
+| Free | MFA, SSO, Basic Security and Usage reports, User Management |
+| Office 365 Apps | Company Branding, SLA, Two-sync between On-premises and Cloud |
+| Premium 1 | Hybrid architecture, Advanced Group Access, Conditional Access |
+| Premium 2 | Identity protection, Identity Governance |
+
 ### Azure AD Tenant
 
 Azure Active Directory (Azure AD) is a cloud-based identity and access management service. Azure AD enables your employees access external resources, such as Microsoft 365, the Azure portal, and thousands of other SaaS applications.
@@ -42,6 +51,13 @@ There are 2 types of managed identities: system-assigned and user-assigned.
 
 1. **Syste-Assigned** - When you enable a system-assigned managed identity, an identity is created in Azure AD that's tied to the lifecycle of that service instance. When the resource is deleted, Azure automatically deletes the identity for you
 1. **User-Assigned** - You may also create a managed identity as a standalone Azure resource. Once you create a user-assigned managed identity you can assign it to one or more instances of an Azure service.
+
+| Feature | System-Assigned | User-Assigned |
+| --- | --- | --- |
+| Creation | Created as part of an Azure resource | Created as a standalone Azure resource |
+| Lifecycle | Shared lifecycle with the Azure resource | Independent lifecycle |
+| Deletion | When resource deletes so does the identity | Must be explicitly deleted |
+| Sharing across Azure resources | Cannot be shared.<br>Associated with a single Azure resource | Can be shared.<br>Can be associated with more than one Azure resource. |
 
 <u>**Device**</u> - 
 
