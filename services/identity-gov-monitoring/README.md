@@ -31,6 +31,17 @@ When a user signs up for a Microsoft cloud service, a new Azure AD tenant is cre
 
 Click [here](https://learn.microsoft.com/en-us/training/modules/explore-basic-services-identity-types/3-describe-available-editions) to see the differnet licenses for Azure AD.
 
+### Single Sign-On (SSO)
+
+The main protocols supported in Azure Include:
+
+1. **OpenID connect and OAuth:** OpenID Connect is an identity layer built on top of OAuth 2.0. It allows for authentication and authorization of users in a secure and standardized manner.
+1. SAML (Security Assertion Markup Language): SAML is an XML-based protocol used for exchanging authentication and authorization data between an identity provider and a service provider. It is commonly used for federated authentication scenarios.
+1. **Password-based authentication**: This refers to the traditional username and password authentication method where users provide their credentials directly to authenticate.
+1. **Linked Authentication**: Azure provides the ability to link multiple accounts from different identity providers toa  single user identity. THis allows users to authenticate using any of their linked accounts.
+1. **Integrated Windows Authentication (IWA)**: IWA lets users access applications using their Windows domain credentials, utilizing their **current Windows session** for authentication.
+1. **Header-based authentication**: In this method, the application accepts an authentication token in the form of a header in each request. The token is validated by the application to authenticate the user.
+
 ### Identities
 
 Azure AD manages different types of identities: **users, service principals, managed identities, and devices**.
@@ -54,10 +65,10 @@ There are 2 types of managed identities: system-assigned and user-assigned.
 
 | Feature | System-Assigned | User-Assigned |
 | --- | --- | --- |
-| Creation | Created as part of an Azure resource | Created as a standalone Azure resource |
-| Lifecycle | Shared lifecycle with the Azure resource | Independent lifecycle |
-| Deletion | When resource deletes so does the identity | Must be explicitly deleted |
-| Sharing across Azure resources | Cannot be shared.<br>Associated with a single Azure resource | Can be shared.<br>Can be associated with more than one Azure resource. |
+| **Creation** | Created as part of an Azure resource | Created as a standalone Azure resource |
+| **Lifecycle** | Shared lifecycle with the Azure resource | Independent lifecycle |
+| **Deletion** | When resource deletes so does the identity | Must be explicitly deleted |
+| **Sharing across Azure resources** | Cannot be shared.<br>Associated with a single Azure resource | Can be shared.<br>Can be associated with more than one Azure resource. |
 
 <u>**Device**</u> - 
 
@@ -136,6 +147,12 @@ With External Identities, external users can "bring their own identities." Wheth
 
 # Azure Roles and AD Roles
 
+Azure has three types of roles that can serve the same purpose.
+
+1. **Classic subscription administrator role**: This is the original role system.
+1. **Azure Roles (RBAC)** - This authorization system is also known as Role-Based Access Controls (RBAC) and is built on top of Azure Resource Manager (ARM).
+1. **Azure Active Directory (Azure AD)** - Azure AD roles are used to manage Azure AD resources in a directory.
+
 ## Describing RBAC
 
 - Who = Security Principals - could be a single identity, a group, a service principal, or managed identity
@@ -149,15 +166,16 @@ Principals (Users) are assigned roles which then give them permissions to design
 
 ![](https://docs.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-setup-guide/media/organize-resources/scope-levels.png)
 
-> **Note**: Remember permissions flow down the hierarchy. 
+> [!NOTE]
+> Remember permissions flow down the hierarchy. 
 
 **Common Roles**
 | Built-in "General" Roles | Description |
 | --- | --- |
-| **Owner** | Grants full access to manage all resources, including the ability to assign roles in Azure RBAC. |
-| **Contributor** | Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries. |
-| **Reader** | View all resources, but does not allow you to make any changes. |
-| **User Access Administrator** | Lets you manage user access to Azure resources. |
+| `Owner` | Grants full access to manage all resources, including the ability to assign roles in Azure RBAC. |
+| `Contributor` | Grants full access to manage all resources, but does not allow you to assign roles in Azure RBAC, manage assignments in Azure Blueprints, or share image galleries. |
+| `Reader` | View all resources, but does not allow you to make any changes. |
+| `User Access Administrator` | Lets you manage user access to Azure resources. |
 
 Other common roles used:
 
@@ -169,15 +187,16 @@ Other common roles used:
 
 [Full list of Azure RBAC roles here.](https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles)
 
-
 ## Describe Azure AD Roles
 
 **Common Roles**
-- `global administrator` - Can manage ALL Azure AD resources
-- `billing administrator` - Can perform billing tasks
-- `user administrator` - Can manage users and groups
-- `help desk administrator` - Can reset passwords for users
-- `global reader` - Can read everything a global admin can, but not update anything
+| Built-In Roles | Description |
+| --- | --- |
+| `global administrator` | Can manage ALL Azure AD resources |
+| `billing administrator` | Can perform billing tasks |
+| `user administrator` | Can manage users and groups |
+| `help desk administrator` | Can reset passwords for users |
+| `global reader` | Can read everything a global admin can, but not update anything |
 
 [Full list here](https://docs.microsoft.com/en-us/azure/active-directory/roles/permissions-reference)
 
@@ -192,9 +211,28 @@ Other common roles used:
 
 ![](https://techcommunity.microsoft.com/t5/image/serverpage/image-id/281467i6699E54FC52CE4D5/image-size/large?v=v2&px=999)
 
+## BuiltinRole
+
+Refer to the set of predefined roles offered by Microsoft in Azure. Read-only and cannot be altered.
+
+### Role Assignment
+
+Role assignment is when you apply a role to a service principal which can be one of the following:
+* User
+* Group
+* Service Principal
+* Managed Identity
+
+Deny assignments block users from performing specific actions even if a role assignemtn grants them access. The only way to apply Deny assignemnts is through Azure Blueprints.
+
+
+![](https://learn.microsoft.com/en-us/azure/role-based-access-control/media/shared/rg-access-control.png)
+(Look at the Role Assignments or Deny Assignemnts tabs)
+
+
 ## Custom Roles
 
-You can create custom roles in Azure  and in Azure AD
+You can create custom roles in Azure and in Azure AD. CustomRole represents user-defined roles in Azure with your own custom logic based on specific requirements.
 
 ### Azure Custom Roles
 
@@ -208,6 +246,9 @@ Granting permission using custom Azure AD roles is a two-step process that invol
 
 A role assignment is an Azure AD resource that attaches a role definition to a security principal at a particular scope to grant access to Azure AD resources.
 
+> [!WARNING]
+> You'll need to purchase either [Azure AD Premium P1 or P2](https://learn.microsoft.com/en-us/entra/identity/role-based-access-control/custom-create#prerequisites) to create custom roles in Azure AD.
+
 #### Example
 
 The following diagram shows an example of a role assignment. In this example, Chris has been assigned the App Registration Administrator custom role at the scope of the Contoso Widget Builder app registration. The assignment grants Chris the permissions of the App Registration Administrator role for only this specific app registration.
@@ -217,6 +258,7 @@ The following diagram shows an example of a role assignment. In this example, Ch
 ---
 
 # Identity Security
+
 # Identities with Azure AD Identity Protection
 
 ![](https://learn.microsoft.com/en-us/azure/active-directory/identity-protection/media/overview-identity-protection/identity-protection-overview.png)
@@ -294,16 +336,35 @@ Administrators are faced with two primary goals:
 
 Common signals that Conditional Access can take in to account when making a policy decision include the following signals:
 
-* User or group Membership
+* **User or group Membership**
     * Policies can be targeted to specific users and groups for fine grained control
-* IP Location
+* **IP Location**
     * Create trusted IP address ranges
     * Admins can specify entire countries/regions IP range to block or allow
-* Device
+* **Device**
     * Users with devices of specific platforms or specific state can be used when enforcing Conditional Access policies.
     * Use filters for devices to target policies to specific devices
-* Real-time and calculated risk detection
+* **Real-time and calculated risk detection**
     * Signals integration with AZ AD Identity Protection allows Conditional Access policies to identify risky sign-in behavior.
+* **User Risk**
+    * For customers with Identity Protection, user risk can be evaluated as part of a Condiational Access policy.
+    * User risk represents the probability that a given identity or account is compromised.
+* **Cloud apps or actions**
+    * Cloud apps or actions can include or exclude cloud applications or user actions that will be subject to the policy.
+
+## Common Decisions
+
+Common decisions define the access controls that device what level of access ased on Signal information
+
+* **Block access**
+    * Most restrictive decision
+* **Grant access**
+    * Least restrictive decision, still require one or more of the following options:
+        * Require multi-factor authentication
+        * Require device to be marked as compliant
+        * Require hybrid Azure AD joined device
+        * Require approved client app
+        * Require app protection policy (preview)
 
 ## License Requirements
 
@@ -315,7 +376,7 @@ Common signals that Conditional Access can take in to account when making a poli
 
 Using Conditional Access, there is a chance you can lock your self out of the environment. To help prevent this action, first put the new condtiion in [`report-only`](https://learn.microsoft.com/en-us/azure/active-directory/conditional-access/concept-conditional-access-report-only) mode to understand the impact of the Conditional Access policy.
 
-### Example
+### Example of conditional access
 
 Look at this [video on setting up Conditional Access](https://youtu.be/5DsW1hB3Jqs)
 
