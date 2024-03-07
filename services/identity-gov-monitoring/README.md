@@ -189,6 +189,9 @@ Other common roles used:
 
 ## Describe Azure AD Roles
 
+* By default, the `global administrator` does not have permissions to manage Azure resources.
+* `Global Administrator` can gain access to Azure resource if granted the `User Access Administrator` role (an AZ role)
+
 **Common Roles**
 | Built-In Roles | Description |
 | --- | --- |
@@ -416,3 +419,220 @@ Great service to automatically, through repeated schedules, set up reviews for u
 ## License Requirements
 
 * PIM requires Azure AD P2
+
+---
+
+# Introduction to Azure Policies
+
+Azure Policies enforce organizational standards and to assess compliance at-scale. Policies do not restrict access; they only observe for compliance.
+
+<u>Policy Make-Up</u>
+
+![](https://learn.microsoft.com/en-us/azure/governance/policy/media/create-and-manage/definition-under-authoring.png)
+
+* **Policy Definitions** - A policy definition is a JSON file used to describe business rules to control access to resources.
+* **Policy Assignment** - The scope of a policy can affect. Assigned to a user, a resource group or management group.
+* **Policy Parameters** - Values you can pass into your Policy definition, so your Policies are more flexible for re-use.
+* **Initiative Definitions** - An initiative definition is a collection of policy definitions, that you can assign. eg, A group of policies to enforce PCI-DSS compliance
+
+### Azure Policy Use-cases
+
+Here are some examples of why to use Azure Policy:
+
+1. **Organization compliance**: Azure Policy enforces standards and assess compliance at-scale, such as enforcing compliance labels on all resources.
+1. **Cost Control:** Policies can prevent over-provisioning to save costs, like limiting the creation of high-cost VMs.
+1. **Security Enhancements**: Policies can improve security by enforcing configuration like requiring secure transfer for all storage accounts.
+1. **Resource consistency**: Policies can enforce consistent configurations like a specific naming convention or tag structure.
+1. **Regulatory compliance**: Policies can ensure specific configurations for regulatory compliance, such as data hosting in specific regions for data sovereignty.
+
+### Recommended Azure Policies
+
+Here's a [link](https://github.com/Azure/Enterprise-Scale/wiki/ALZ-Policies) the to Azure Landing zone with recommended policies to enable at different stacks.
+
+As of March 2024 - Here's a link to a local [Excel Doc](../docs/ALZ%20Policy%20Assignments%20v2.xlsx) with all the Policies and at what level.
+
+### Anatomy of an Azure Policy Definition File
+
+Here's a link to the official Microsoft doc for [Azure Policy definition structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/definition-structure).
+
+```json
+{
+  "properties": {
+    "displayName": "Audit flow logs configuration for every virtual network",
+    "description": "Audit for virtual network to verify if flow logs are configured. Enabling flow logs allows to log information about IP traffic flowing through virtual network. It can be used for optimizing network flows, monitoring throughput, verifying compliance, detecting intrusions and more.",
+    "policyType": "BuiltIn",
+    "mode": "Indexed",
+    "metadata": {
+      "version": "1.0.1",
+      "category": "Network"
+    },
+    "version": "1.0.1",
+    "parameters": {
+      "effect": {
+        "type": "string",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allof": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/virtualNetworks"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/virtualNetworks/flowLogs[*]"
+            },
+            "equals": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  },
+  "id": "/providers/Microsoft.Authorization/policyDefinitions/4c3c6c5f-0d47-4402-99b8-aa543dd8bcee",
+  "name": "4c3c6c5f-0d47-4402-99b8-aa543dd8bcee"
+}
+```
+
+* `displayName` - Identifies the policy (128 character limit)
+* `description` - Provides the context of the policy
+* `policyType` - Has three options:
+    * **BuiltIn** - Microsoft maintained
+    * **Custom** - Created and maintained by you, the owner.
+    * **Static** - Microsoft Owned, a regulatory compliance
+* `mode` - Determines which resource types are evaluated. Changes whether Resource Provider or Azure Resource Manager is used.
+    * **Resource Manager**
+        * `All` - Resource Groups, subscriptions and all resource types
+        * `Indexed` - Only resource types that support tags and location
+    * **Resource Provider**
+        * Microsoft.ContainerService.Data
+        * Microsoft.KeyVault.Data
+* `metadata` - Optional field used to store key-value information on the policy
+* `parameters` - Are values passed into the policy to improve its flexibility. Has the following properties:
+    * `name` the name of the parameter
+    * `type` can be String, Array, Object, Boolean, Integar, Float or Datetime
+    * `metadata` used by Azure to display friendly information
+        * description
+        * displaNmae
+        * strongType (optional, multi-select list)
+        * assignPermissions
+    * `defaultValue` (opt)
+    * `allowedValue` (opt)
+* `policyRule`
+    - consists of `if` and `then` blocks. In the `if` block, you define one or more conditions that specify when the policy is enforced.
+        * You can apply logical operators to these conditions to precisely define the scenario for a policy.
+        ```json
+        {
+            "if": {
+                <condition> | <logical operator>
+            },
+            "then": {
+                "effect": "deny | audit | append | auditIfNotExists | deployIfNotExists | disabled"
+            }
+        }
+        ```
+
+### Configure Azure Policy
+
+When you first setup your Azure tenant, Microsoft will automatically assign a default Azure Policy that is an [initiative compliance](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/initiative-definition-structure) policy. Initiatives enable you to group several related definitions to simplify assignments and management because you work with a group as a single item. For example, you can group related tagging policy definitions into a single initiative. Rather than assigning each policy individually, you apply the initiative.
+
+![](../docs/az-policy-overview.png)
+(*Azure Policy Overview - Default assignment*)
+
+![](../docs/az-policy-initiative.png)
+(*Azure Policy initiative details*)
+
+![](../docs/az-policy-assignment.png)
+
+
+---
+
+# [Azure Resource Manager](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/overview)
+
+![](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/media/overview/consistent-management-layer.png)
+
+Azure Resource Manager is the deployment and management service for Azure. It provides a management layer that enables you to create, update, and delete resources in your Azure account. When you send a request through any of the Azure APIs, tools, or SDKs, Resource Manager receives the request. It authenticates and authorizes the request before forwarding it to the appropriate Azure service.
+
+## Scope
+
+Azure has 4 levels of management scope:
+
+![](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/media/overview/scope-levels.png)
+
+1. Management Groups - a logical grouping of multiple subscriptions
+1. Subscriptions - Grants you access to Azure services based on a billing and support agreement
+1. Resource Groups - A logical grouping of multiple resources
+1. Resources - An Azure resource like VMs, Storage, DBs, APIs, etc.
+
+## [Azure Management Groups](https://learn.microsoft.com/en-us/azure/governance/management-groups/overview)
+
+Management groups provide a governance scope above subscriptions. You organize subscriptions into management groups; the governance conditions you apply cascade by inheritance to all associated subscriptions.
+
+![](https://learn.microsoft.com/en-us/azure/governance/media/mg-org.png)
+
+You can create a hierarchy that applies a policy, for example, which limits VM locations to the West US region in the management group called "Corp". This policy will inherit all the Enterprise Agreement (EA) subscriptions that are descendants of that management group and will apply to all VMs under those subscriptions. This security policy cannot be altered by the resource or subscription owner, allowing for improved governance.
+
+### Root Management group
+
+Each directory is given a single top-level management group called the root management group. The root management group is built into the hierarchy to have all management groups and subscriptions fold up to it. This root management group allows for global policies and Azure role assignments to be applied at the directory level. 
+
+#### Facts About Root Management Group
+* The root management group can't be moved or deleted
+* By default, the root management group's display name is Tenant root group and operates itself as a management group. You can change the name if you have correct RBAC.
+* All Azure customers can see the root management group, but not all customers have access to manage that root management group.
+
+## Subscriptions
+
+Before you can do anything in your Azure account, you'll need a subscription. An Azure Account can have multiple subscriptions and the most common three are:
+
+* Free Trial
+* Pay-as-you-Go
+* Azure for Students
+
+At the subscription level you'll have the ability to set:
+
+* Resource Tags
+* Access Controls
+* Resource Groups
+* Cost Management and billing
+* More...
+
+## Resource Groups
+
+A resource group is a container that holds related resources for an Azure subscription. The resource group can include all the resources for the solution, or only those resources that you want to manage as a group. Generally, add resources that share the same lifecycle to the same resource group so you can easily deploy, update, and delete them as a group.
+
+### Resource Providers
+
+In order to use Azure resources, you have to register Resource Providers. Many providers are registered by default for you with your Subscription. However, for certain resources you may need to manually register the Resource Provider.
+
+1. Go to your subscription, select Resource Providers
+    ![](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/media/resource-providers-and-types/select-resource-providers.png)
+1. Find the resource provider you want to register and select **Register**.
+    ![](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/media/resource-providers-and-types/register-resource-provider.png)
+
+### Move to another resource group or subscription
+
+You can move the resources in the group to anothre resource group. There is a checklist that must be referenced if you decide to move resources around.
+
+#### [Checklist](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription#checklist-before-moving-resources)
+
+1. The source and destination subscriptions must exist within the same Microsoft Entra tenant.
+1. The resources you want to move must support the move operation.
+1. Some services have specific limitations or requirements when moving resources. Check the specific service before moving.
+1. The destination subscription must be registered for the resource provider of the resource being moved.
+
+### Lock resource groups
+
+Locking prevents other users in your organization from accidentally deleting or modifying critical resources, such as Azure subscription, resource group, or resource.
