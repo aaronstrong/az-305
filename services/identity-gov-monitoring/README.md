@@ -278,12 +278,12 @@ Identity Protection allows organizations to accomplish three key tasks:
 
 Identity Protection detects risks of many types, including:
 
-* Anonymous IP address use
-* Atypical travel
-* Malware linked IP address
-* Unfamiliar sign-in properties
-* Leaked Credentials
-* Password spay
+* Anonymous IP address use - Sing in from an anonymous IP address (eg. Tor browser, anonymizer VPNs)
+* Atypical travel - Sing in from an atypical location based on the user's recent sign-ins
+* Malware linked IP address - Sign in from a malware linked IP address
+* Unfamiliar sign-in properties - Sign in with properties that haven't been seen recently for the given user
+* Leaked Credentials - Indicates that the user's valid credentials have been leaked
+* Password spay - Multiple usernames being attacked using common passwords in a unified, brute-force manner
 
 **Required Roles**
 
@@ -636,3 +636,133 @@ You can move the resources in the group to anothre resource group. There is a ch
 ### Lock resource groups
 
 Locking prevents other users in your organization from accidentally deleting or modifying critical resources, such as Azure subscription, resource group, or resource.
+
+---
+
+# [ARM templates](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/overview)
+
+To implement infrastructure as code for your Azure solutions, use Azure Resource Manager templates (ARM templates). The template is a JavaScript Object Notation (JSON) file that defines the infrastructure and configuration for your project. The template uses declarative syntax, which lets you state what you intend to deploy without having to write the sequence of programming commands to create it. 
+
+## Why choose ARM templates?
+
+Here are some advantages of using templates:
+
+* **Declarative syntax**: ARM templates allow you to create and deploy an entire Azure infrastructure declaratively. No need to write the sequence of commands, let ARM figure it out.
+* **Repeatable results**: Repeatedly deploy your infrastructure throughout the development lifecycle. Templates are idempotent, which means you can deploy the same template many times and get the same resource types in the same state.
+* **Orchestration**: Resource Manager orchestrates the deployment of interdependent resources so they're created in the correct order. When possible, Resource Manager deploys resources in parallel so your deployments finish faster than serial deployments.
+* **Modular Files**: You can break your templates into smaller, reusable components and link them together at deployment time. You can also nest one template inside another template.
+* **Built-in validation**: Resource Manager checks the template before starting the deployment to make sure the deployment will succeed.
+
+## [ARM structure and syntax](https://learn.microsoft.com/en-us/azure/azure-resource-manager/templates/syntax)
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "languageVersion": "",
+  "contentVersion": "",
+  "apiProfile": "",
+  "definitions": { },
+  "parameters": { },
+  "variables": { },
+  "functions": [ ],
+  "resources": [ ], /* or "resources": { } with languageVersion 2.0 */
+  "outputs": { }
+}
+```
+
+| Element | Required | Description |
+| --- | --- | --- |
+| $schema | Yes | Describes the properties that are available within a template |
+| contentVersion | Yes | the version of the template. You can provide any value for this element. |
+| apiProfile | No | Use this value to avoid having to specify API versions for each resource in the template. |
+| definitions | No |  |
+| parameters | No | values you can pass along to your template |
+| variables | No | You can transform parameters or resource properties using function expressions |
+| functions | No | User-defined functions available within the template. |
+| resources | Yes | The Azure resources you'll want to deploy or update |
+| outputs | No | VAlues that are returned after deployment |
+
+### Resources
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-04-01",
+      "name": "{provide-unique-name}",
+      "location": "eastus",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "supportHttpsTrafficOnly": true
+      }
+    }
+  ],
+}
+```
+
+| Element | Required | Description |
+| --- | --- | --- |
+| type | Yes | Type of resource. Follows the format {ResourceProvider}/ResourceType|
+| apiVersion | Yes | Version of the REST API to use for the resource. Each resource provider published has its own API version |
+| name | Yes | Name of resource |
+| location | Varies | Most resource have a location property. The region where the resource will be deployed |
+
+### Parameters
+
+Allows you to pass variables to your ARM template.
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageName": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 20
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2019-04-01",
+      "name": "[parameters('storageName')]",
+      "location": "eastus",
+      "sku": {
+        "name": "Standard_LRS"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "supportHttpsTrafficOnly": true
+      }
+    }
+  ],
+}
+```
+
+| Element | Required | Description |
+| --- | --- | --- |
+| Parameter-name | Yes | |
+| type | Yes | the expected data type of the inputed value<br> * string, securestring, int, bool, object, secureObject and array |
+| defaultValue | No | if no value is provided it will be set to this value |
+| allowedValues | No | An array of allowed values |
+| minValue | No | minimum possible value |
+| maxValue | No | max possible value |
+| minLength | No | the min length of characters or array |
+| maxLength | No | the max length of characters or array |
+
+### Functions
+
+Allows you to apply transformations to your ARM variables
+ * Template Function - built-in functions
+ * Used-defined functions - custom functions you create.
+
+ ---
+
+ # Azure Monitor
