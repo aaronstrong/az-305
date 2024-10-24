@@ -11,7 +11,7 @@ sandbox=1-7b0ecea8-playground-sandbox
 region=westus
 vnet=myVnet
 username=azureadmin
-onpremVPN='myip'
+export MY_PUBLIC_IP=$(curl -s https://api.ipify.org)
 local_addr=192.168.0.0/16
 sharedkey=mySecret
 ```
@@ -106,7 +106,7 @@ az network vnet-gateway create -n VNet1GW -l $region --public-ip-address VNet1GW
 
 ## Create the local network gateway
 
-az network local-gateway create --gateway-ip-address $onpremVPN --name Site1 --resource-group $sandbox --local-address-prefixes $local_addr
+az network local-gateway create --gateway-ip-address $MY_PUBLIC_IP --name Site1 --resource-group $sandbox --local-address-prefixes $local_addr
 
 ## Configure your VPN Device
 
