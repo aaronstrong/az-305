@@ -11,7 +11,7 @@ sandbox=1-7b0ecea8-playground-sandbox
 region=westus
 vnet=myVnet
 username=azureadmin
-onpremVPN=66.226.105.145
+onpremVPN='myip'
 local_addr=192.168.0.0/16
 sharedkey=mySecret
 ```
@@ -76,4 +76,43 @@ az network nsg rule create \
   --destination-port-range 5432 \
   --access allow \
   --direction inbound
+```
+
+Create Private DNS
+
+```bash
+# Create PRIVAT DNS
+az network private-dns zone create -g $sandbox -n private.contoso.com
+az network private-dns link vnet create -g $sandbox -n MyDNSLink -z private.contoso.com -v $vnet -e true
+
+# Create an additional DNS record
+az network private-dns record-set a add-record -g $sandbox -z private.contoso.com -n azfiles -a 10.0.5.132
+```
+
+Create Site-to-Site with Route Base Policy
+
+```bash
+## Request a public IP address
+
+az network public-ip create -n VNet1GWIP -g $sandbox
+
+## View the public IP address
+
+az network public-ip show --name VNet1GWIP --resource-group $sandbox
+
+## Create the VPN Gateway
+
+az network vnet-gateway create -n VNet1GW -l $region --public-ip-address VNet1GWIP -g $sandbox --vnet $vnet --gateway-type Vpn --sku VpnGw2 --vpn-gateway-generation Generation2 --no-wait
+
+## Create the local network gateway
+
+az network local-gateway create --gateway-ip-address $onpremVPN --name Site1 --resource-group $sandbox --local-address-prefixes $local_addr
+
+## Configure your VPN Device
+
+az network public-ip list --resource-group $sandbox --output table
+
+## Create the VPN Connection
+
+az network vpn-connection create --name VNet1toSite2 --resource-group $sandbox --vnet-gateway1 VNet1GW -l $region --shared-key $sharedkey --local-gateway2 Site1
 ```
