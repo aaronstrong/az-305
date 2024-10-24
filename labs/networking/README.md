@@ -7,11 +7,11 @@
 Establish your envrionment variables.
 
 ```bash
-sandbox=1-7b0ecea8-playground-sandbox
-region=westus
+export sandbox=$(az group list --query "[0].name" -o tsv)
+export region=$(az group show --name $sandbox --query "location" -o tsv)
+export MY_PUBLIC_IP=$(curl -s https://api.ipify.org)
 vnet=myVnet
 username=azureadmin
-export MY_PUBLIC_IP=$(curl -s https://api.ipify.org)
 local_addr=192.168.0.0/16
 sharedkey=mySecret
 ```
