@@ -116,3 +116,17 @@ az network public-ip list --resource-group $sandbox --output table
 
 az network vpn-connection create --name VNet1toSite2 --resource-group $sandbox --vnet-gateway1 VNet1GW -l $region --shared-key $sharedkey --local-gateway2 Site1
 ```
+
+Create two linux boxes and put into the Web frontend subnet
+
+```bash
+az network nic create \
+  --resource-group $sandbox \
+  --name myVM \
+  --vnet-name $vnet \
+  --subnet sn-webfrontend
+
+
+
+az vm create --name myVM --resource-group $sandbox --admin-username azureadmin --admin-password MyPassword!! --image Ubuntu2204 --vnet-name $vnet --subnet sn-webfrontend
+```
