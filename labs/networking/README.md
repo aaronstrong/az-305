@@ -117,16 +117,121 @@ az network public-ip list --resource-group $sandbox --output table
 az network vpn-connection create --name VNet1toSite2 --resource-group $sandbox --vnet-gateway1 VNet1GW -l $region --shared-key $sharedkey --local-gateway2 Site1
 ```
 
-Create two linux boxes and put into the Web frontend subnet
+Create a linux boxes and put into the Web frontend subnet
 
 ```bash
+VM_IMAGE="Canonical:UbuntuServer:18.04-LTS:latest"
+VM_NAME="ubuntu-web-vm"
+VM_SIZE="Standard_B1s"  # Small, cost-effective size
+
+
+az network public-ip create \
+    --resource-group $sandbox \
+    --name "${VM_NAME}-ip" \
+    --sku Basic \
+    --allocation-method Dynamic
+
+# Create a network interface with the public IP
 az network nic create \
+    --resource-group $sandbox \
+    --name "${VM_NAME}-nic" \
+    --vnet-name $vnet \
+    --subnet sn-webfrontend \
+    --public-ip-address "${VM_NAME}-ip"
+
+# Create the VM
+az vm create \
+    --resource-group $sandbox \
+    --name $VM_NAME \
+    --image $VM_IMAGE \
+    --size $VM_SIZE \
+    --admin-username azureuser \
+    --generate-ssh-keys \
+    --nics "${VM_NAME}-nic"
+
+# Install NGINX
+az vm extension set --publisher Microsoft.Azure.Extensions --version 2.0 --name CustomScript --resource-group $sandbox --vm-name $VM_NAME --settings '{ "fileUris": ["https://raw.githubusercontent.com/Azure/azure-docs-powershell-samples/master/application-gateway/iis/install_nginx.sh"], "commandToExecute": "./install_nginx.sh" }'
+
+---
+
+# Create Multiple VMs
+for i in `seq 1 2`; do
+  az network nic create \
+    --resource-group $sandbox \
+    --name myNic$i \
+    --vnet-name $vnet \
+    --subnet sn-webfrontend
+  az vm create \
+    --resource-group $sandbox \
+    --name $VM_NAME-$i \
+    --nics myNic$i \
+    --image $VM_IMAGE \
+    --size $VM_SIZE \
+    --admin-username azureuser \
+    --generate-ssh-keys 
+done
+
+# Install NGINX
+for i in `seq 1 2`; do
+  az vm extension set --publisher Microsoft.Azure.Extensions \
+  --version 2.0 \
+  --name CustomScript \
   --resource-group $sandbox \
-  --name myVM \
-  --vnet-name $vnet \
-  --subnet sn-webfrontend
+  --vm-name $VM_NAME-$i \
+  --settings '{ "fileUris": ["https://raw.githubusercontent.com/Azure/azure-docs-powershell-samples/master/application-gateway/iis/install_nginx.sh"], "commandToExecute": "./install_nginx.sh" }'
+done
 
 
 
-az vm create --name myVM --resource-group $sandbox --admin-username azureadmin --admin-password MyPassword!! --image Ubuntu2204 --vnet-name $vnet --subnet sn-webfrontend
+
 ```
+
+Create an Application Gateway
+```bash
+PUBLIC_IP_NAME="${APPGW_NAME}-ip"
+APPGW_NAME="myAppGateway"
+
+# Create a public IP address for the Application Gateway
+az network public-ip create \
+    --resource-group $sandbox \
+    --name $PUBLIC_IP_NAME \
+    --sku Standard \
+    --allocation-method Static \
+    --zone 1 2 3  # For zone redundancy
+
+# Create Application Gateway
+az network application-gateway create \
+ --name myAppGateway \
+ --location $region \
+ --resource-group $sandbox \
+ --vnet-name $vnet \
+ --subnet AppGatewaySubnet \
+ --capacity 2 \
+ --sku Standard_v2 \
+ --http-settings-cookie-based-affinity Disabled \
+ --frontend-port 80 \
+ --http-settings-port 80 \
+ --http-settings-protocol Http \
+ --public-ip-address $PUBLIC_IP_NAME \
+ --priority 100
+
+---
+
+address1=$(az network nic show --name myNic1 --resource-group $sandbox | grep "\"privateIPAddress\":" | grep -oE '[^ ]+$' | tr -d '",')
+address2=$(az network nic show --name myNic2 --resource-group $sandbox | grep "\"privateIPAddress\":" | grep -oE '[^ ]+$' | tr -d '",')
+az network application-gateway create --name $APPGW_NAME \
+  --location $region \
+  --resource-group $sandbox \
+  --capacity 2 \
+  --sku Standard_v2 \
+  --public-ip-address myAGPublicIPAddress \
+  --vnet-name $vnet \
+  --subnet AppGatewaySubnet \
+  --servers "$address1" "$address2" \
+  --priority 100
+
+
+
+```
+
+
