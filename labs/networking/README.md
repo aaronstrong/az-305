@@ -117,14 +117,14 @@ az network public-ip list --resource-group $sandbox --output table
 az network vpn-connection create --name VNet1toSite2 --resource-group $sandbox --vnet-gateway1 VNet1GW -l $region --shared-key $sharedkey --local-gateway2 Site1
 ```
 
-Create a linux boxes and put into the Web frontend subnet
+Create a linux boxes and put into the Web frontend subnet.
 
 ```bash
 VM_IMAGE="Canonical:UbuntuServer:18.04-LTS:latest"
 VM_NAME="ubuntu-web-vm"
 VM_SIZE="Standard_B1s"  # Small, cost-effective size
 
-
+# Create a public facing jumpbox
 az network public-ip create \
     --resource-group $sandbox \
     --name "${VM_NAME}-ip" \
@@ -149,12 +149,7 @@ az vm create \
     --generate-ssh-keys \
     --nics "${VM_NAME}-nic"
 
-# Install NGINX
-az vm extension set --publisher Microsoft.Azure.Extensions --version 2.0 --name CustomScript --resource-group $sandbox --vm-name $VM_NAME --settings '{ "fileUris": ["https://raw.githubusercontent.com/Azure/azure-docs-powershell-samples/master/application-gateway/iis/install_nginx.sh"], "commandToExecute": "./install_nginx.sh" }'
-
----
-
-# Create Multiple VMs
+# Create Multiple VMs with a custom NGINX install
 for i in `seq 1 2`; do
   az network nic create \
     --resource-group $sandbox \
@@ -168,20 +163,15 @@ for i in `seq 1 2`; do
     --image $VM_IMAGE \
     --size $VM_SIZE \
     --admin-username azureuser \
-    --generate-ssh-keys 
-done
-
-# Install NGINX
-for i in `seq 1 2`; do
+    --generate-ssh-keys
+  # Install NGINX
   az vm extension set --publisher Microsoft.Azure.Extensions \
-  --version 2.0 \
-  --name CustomScript \
-  --resource-group $sandbox \
-  --vm-name $VM_NAME-$i \
-  --settings '{ "fileUris": ["https://raw.githubusercontent.com/Azure/azure-docs-powershell-samples/master/application-gateway/iis/install_nginx.sh"], "commandToExecute": "./install_nginx.sh" }'
+    --version 2.0 \
+    --name CustomScript \
+    --resource-group $sandbox \
+    --vm-name $VM_NAME-$i \
+   --settings '{ "fileUris": ["https://raw.githubusercontent.com/Azure/azure-docs-powershell-samples/master/application-gateway/iis/install_nginx.sh"], "commandToExecute": "./install_nginx.sh" }'  
 done
-
-
 
 
 ```
