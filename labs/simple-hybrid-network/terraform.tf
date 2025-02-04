@@ -3,7 +3,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "4.17.0"
+      version = ">= 3.84.0"
     }
     # modtm = {
     #   source  = "azure/modtm"
@@ -14,12 +14,12 @@ terraform {
     #   version = "~> 3.6"
     # }
   }
-  cloud {
-    organization = "theaaronstrong"
-    workspaces {
-      name = "az-305"
-    }
-  }
+  # cloud {
+  #   organization = "theaaronstrong"
+  #   workspaces {
+  #     name = "az-305"
+  #   }
+  # }
 }
 
 
