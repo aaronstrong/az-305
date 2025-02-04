@@ -17,7 +17,7 @@ terraform {
   cloud {
     organization = "theaaronstrong"
     workspaces {
-      name = "myazure"
+      name = "az-305"
     }
   }
 }
@@ -26,7 +26,7 @@ terraform {
 provider "azurerm" {
   features {}
   use_msi = true
-  # subscription_id = var.subscription_id
-  # tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
+  tenant_id       = var.tenant_id
 }
 
