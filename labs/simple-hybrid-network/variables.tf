@@ -7,6 +7,10 @@ variable "tenant_id" {
   type = string
 }
 
+variable "client_id" {
+  type = string
+}
+
 variable "location" {
   description = "Resource location"
   type        = string
