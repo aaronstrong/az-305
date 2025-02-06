@@ -6,15 +6,6 @@ terraform {
       version  = "3.43.0"
     }
   }
-
-  cloud {
-    organization = "theaaronstrong"
-
-    workspaces {
-      name = "az-305"
-    }
-  }
-
 }
 
 provider "azurerm" {
@@ -37,10 +28,10 @@ data "azurerm_resource_group" "rg" {
   name = var.existing_rg
 }
 
-# resource "azurerm_storage_account" "storageaccount" {
-#   name                     = "stg${random_string.uniquestring.result}"
-#   resource_group_name      = data.azurerm_resource_group.rg.name
-#   location                 = data.azurerm_resource_group.rg.location
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
-# }
+resource "azurerm_storage_account" "storageaccount" {
+  name                     = "stg${random_string.uniquestring.result}"
+  resource_group_name      = data.azurerm_resource_group.rg.name
+  location                 = data.azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
