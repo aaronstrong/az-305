@@ -31,7 +31,6 @@ resource "random_string" "uniquestring" {
 variable "existing_rg" {
   description = "Name of the existing resource group."
   type        = string
-  default     = "1-94a7033d-playground-sandbox"
 }
 
 data "azurerm_resource_group" "rg" {
