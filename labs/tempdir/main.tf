@@ -7,14 +7,13 @@ terraform {
     }
   }
 
-  cloud { 
-    
-    organization = "theaaronstrong" 
+  cloud {
+    organization = "theaaronstrong"
 
-    workspaces { 
-      name = "az-305" 
-    } 
-  } 
+    workspaces {
+      name = "az-305"
+    }
+  }
 
 }
 
@@ -24,24 +23,25 @@ provider "azurerm" {
 }
 
 resource "random_string" "uniquestring" {
-  length           = 20
-  special          = false
-  upper            = false
+  length  = 20
+  special = false
+  upper   = false
 }
 
-# resource "azurerm_resource_group" "rg" {
-#   name     = "811-e83eb144-provide-continuous-delivery-with-gith"
-#   location = "centralus"
-# }
+variable "existing_rg" {
+  description = "Name of the existing resource group."
+  type        = string
+  default     = "1-94a7033d-playground-sandbox"
+}
 
 data "azurerm_resource_group" "rg" {
-    name = "811-841ede58-provide-continuous-delivery-with-gith"
+  name = var.existing_rg
 }
 
-# resource "azurerm_storage_account" "storageaccount" {
-#   name                     = "stg${random_string.uniquestring.result}"
-#   resource_group_name      = data.azurerm_resource_group.rg.name
-#   location                 = data.azurerm_resource_group.rg.location
-#   account_tier             = "Standard"
-#   account_replication_type = "LRS"
-# }
+resource "azurerm_storage_account" "storageaccount" {
+  name                     = "stg${random_string.uniquestring.result}"
+  resource_group_name      = data.azurerm_resource_group.rg.name
+  location                 = data.azurerm_resource_group.rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
+}
