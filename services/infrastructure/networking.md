@@ -7,6 +7,13 @@
 * Recommend a solution to optimize network security
 * Recommend a load balancing and routing solution
 
+
+---
+
+
+
+---
+
 ## Recap Virtual Networking
 
 ### [Routing](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-udr-overview)
