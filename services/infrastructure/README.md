@@ -3,4 +3,4 @@
 * [Design a compute solution](./compute.md)
 * [Design an application solution]()
 * [Design migrations](./migrations.md)
-* [Design a network solution](./network.md)
+* [Design a network solution](./networking.md)
