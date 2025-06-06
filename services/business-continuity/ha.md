@@ -41,6 +41,11 @@ Some Azure regions are <i>paried</i> with another Azure region in order to form 
 
 Many newer regions aren't paired, and instead use availability zones as their primary means of redundancy. Many Azure services support geo-redundancy whether the regions are paired or not, and you can design a highly resilient solution whether you use paired regions, nonpaired regions, or a combination of both.
 
+#### [Paired Regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired#paired-regions)
+
+Some Azure services use paired regions to build their multi-region geo-replication and geo-redundancy strategy. For example, Azure geo-redundant storage (GRS) can automatically replicate data to a paired region.
+
+
 ### Using multiple Azure regions
 
 It's common to use multiple Azure regions, paired and nonpaired, when you design a solution. By using multiple regions, you can increase workload resilience to many types of failures, and you have many options for disaster recovery. Also, some Azure services are available in specific regions, so by designing a multi-region solution you can take advantage of the global and distributed nature of the cloud.
@@ -52,3 +57,4 @@ It's common to use multiple Azure regions, paired and nonpaired, when you design
   * Deploy VMs within an [Azure proximity placement group](https://learn.microsoft.com/en-us/azure/virtual-machines/co-location).
      * Proximity Placement Group - is a local grouping used to make sure that Azure compute resources are physically located close to each other. As Regions and Availability Zones, the datacenters for AZ's will grow. Using a PPG will ensure your workloads are in the same datacenter.
   * Create larger VMs for better performance.
+* **Data Residency**: Ensure that any regions you select are within a data residency boundary that your organization requires.
