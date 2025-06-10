@@ -91,3 +91,12 @@ It's common to use multiple Azure regions, paired and nonpaired, when you design
      * Proximity Placement Group - is a local grouping used to make sure that Azure compute resources are physically located close to each other. As Regions and Availability Zones, the datacenters for AZ's will grow. Using a PPG will ensure your workloads are in the same datacenter.
   * Create larger VMs for better performance.
 * **Data Residency**: Ensure that any regions you select are within a data residency boundary that your organization requires.
+
+# Design for data storage
+
+The first step in your design for Azure Storage is to determine what types of data are required. Data can be classified in three ways: <i>structured, semi-structured, and unstructed</i>.
+
+| Structured | Semi-Structured | Unstructured |
+| --- | --- | --- |
+| ![](https://learn.microsoft.com/en-us/training/wwl-azure/design-data-storage-solution-for-non-relational-data/media/structured-icon.png) | ![](https://learn.microsoft.com/en-us/training/wwl-azure/design-data-storage-solution-for-non-relational-data/media/semi-structured-icon.png) | ![](https://learn.microsoft.com/en-us/training/wwl-azure/design-data-storage-solution-for-non-relational-data/media/unstructured-icon.png) |
+| Structured data is stored in a relational format that has a shared schema. Structure data is ofter contained in a database table with rows, columns, and keys. | Semi-structured data is less organized. The data fields don't fit neatly into tables, rows, and columns. Semi-structured data cotains tags, that clarify how the data is organized. The data is identified buy using a seralized langugage. | Unstructured data is the least organized. This data is a mix of information without a clear relationship. The format of unstructured data is referred to nonrelational.
