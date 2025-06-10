@@ -92,7 +92,7 @@ It's common to use multiple Azure regions, paired and nonpaired, when you design
   * Create larger VMs for better performance.
 * **Data Residency**: Ensure that any regions you select are within a data residency boundary that your organization requires.
 
-# Design for non-relational data storage
+# [Design for non-relational data storage](https://learn.microsoft.com/en-us/training/modules/design-data-storage-solution-for-non-relational-data/)
 
 The first step in your design for Azure Storage is to determine what types of data are required. Data can be classified in three ways: <i>structured, semi-structured, and unstructed</i>.
 
