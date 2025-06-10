@@ -33,7 +33,35 @@ For a list of Azure regions, see [List of Azure Regions](https://azure.microsoft
 
 ### Availability Zones
 
-Many Azure regions provide availability zones. AZs are independent sets of datacenters taht contain isolated power, cooling, and network connections. AZs are physically located close enough togther to provide a low-latency network, but far enough apart to provide fault isolation from such things as storms and power outages.
+![](https://learn.microsoft.com/en-us/azure/reliability/media/regions-availability-zones.png)
+
+Many Azure regions provide availability zones. AZs are independent sets of datacenters that contain isolated power, cooling, and network connections. AZs are physically located close enough togther to provide a low-latency network, but far enough apart to provide fault isolation from such things as storms and power outages.
+
+Availability zones are typically separated by several kilometers, and usually are within 100 kilometers. This distance means they're close enough to have low-latency connections to other availability zones through a high-performance network. However, they're far enough apart to reduce the likelihood that more than one will be affected by local outages or weather.
+
+Within each region, availability zones are connected through a high-performance network. Microsoft strives to achieve an inter-zone communication with [round-trip latency of less than approximately 2 milliseconds](https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview?tabs=azure-cli#inter-zone-latency). Low latency allows for high-performance communication within a region, and for synchronous replication of data across multiple availability zones.
+
+#### Datacenters
+
+Datacenter locations are selected by using rigorous vulnerability risk assessment criteria. This process identifies all significant datacenter-specific risks and considers shared risks between availability zones.
+
+#### Types of availability zone support
+
+Two types of availability zone support: <i>zone-redundant</i> and <i>zonal</i>.
+
+* **Zone-Redundant deployments**: Zone-redundant resources are automatically replicated across multiple availability zones to ensure data remains accessible even during a zone outage. Microsoft handles the distribution of requests, data replication, and failover between zones.
+* **Zonal deployments**: Zonal resources are deployed to a single, self-selected availability zone to meet specific latency or performance needs, but they do not offer built-in resiliency. To enhance resiliency, you must design a multi-zone architecture yourself and handle failover in the event of a zone outage.
+
+#### Availability zones and Azure Updates (Safe Deployment Practice (SPD) Framework
+
+![](https://azure.microsoft.com/en-us/blog/wp-content/uploads/2020/02/bf679ad2-9c14-484f-a30c-6ac44391150e.webp)
+
+[SDP](https://azure.microsoft.com/en-us/blog/advancing-safe-deployment-practices/) aims to ensure that all code and configuration changes go through a lifecycle of specific stages, where health metrics are monitored along the way to trigger automatic actions and alerts in case of any degradation detected.
+
+Updates are coordinated and routed first to the canary regions > Pilot Phase > Early regions > Broad rollout to region pair 1 and then to pair 2.
+
+A change only goes to one Availability Zone within a region
+
 
 ### Paired and Nonpaired regions
 
