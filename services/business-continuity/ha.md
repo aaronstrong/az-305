@@ -71,7 +71,12 @@ Many newer regions aren't paired, and instead use availability zones as their pr
 
 #### [Paired Regions](https://learn.microsoft.com/en-us/azure/reliability/regions-paired#paired-regions)
 
-Some Azure services use paired regions to build their multi-region geo-replication and geo-redundancy strategy. For example, Azure geo-redundant storage (GRS) can automatically replicate data to a paired region.
+Some Azure services use paired regions to build their multi-region geo-replication and geo-redundancy strategy. For example, Azure geo-redundant storage (GRS) can automatically replicate data to a paired region. [Here's the list of regions and their paired region](https://learn.microsoft.com/en-us/azure/reliability/regions-list)
+
+**<u>Benefits include</u>**
+* **Region recovery sequence**. In the event of a geography wide outage, the recovery of one region is prioritized out of every region pair. Components that are deployed across paired regions have one of the regions prioritized for recovery.
+* **Sequential updatin**. Planned Azure system updates are staggered across regions pairs to minimize the impact of bugs or logical failures in the rare event of faulty updates, and to prevent downtime to solutions that have been designed to use paired regions together for resiliency.
+* **Data residency**. To meet data residency requirements, almost all regions reside within the same geography as their pair.
 
 
 ### Using multiple Azure regions
