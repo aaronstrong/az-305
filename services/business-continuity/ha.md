@@ -100,7 +100,7 @@ The first step in your design for Azure Storage is to determine what types of da
 | --- | --- | --- |
 | ![](https://learn.microsoft.com/en-us/training/wwl-azure/design-data-storage-solution-for-non-relational-data/media/structured-icon.png) | ![](https://learn.microsoft.com/en-us/training/wwl-azure/design-data-storage-solution-for-non-relational-data/media/semi-structured-icon.png) | ![](https://learn.microsoft.com/en-us/training/wwl-azure/design-data-storage-solution-for-non-relational-data/media/unstructured-icon.png) |
 | Structured data is stored in a relational format that has a shared schema. Structure data is ofter contained in a database table with rows, columns, and keys. | Semi-structured data is less organized. The data fields don't fit neatly into tables, rows, and columns. Semi-structured data cotains tags, that clarify how the data is organized. The data is identified buy using a seralized langugage. | Unstructured data is the least organized. This data is a mix of information without a clear relationship. The format of unstructured data is referred to nonrelational. |
-| Relational databases, such as medical records, phone books, and financial accounts. Application data for an e-commerce site. | * HTML files, * JSON files, * XML files | * Media files like photos, videos, audio, * Office files, * Text files, PDFs, TXT and RTF|
+| Relational databases, such as medical records, phone books, and financial accounts. Application data for an e-commerce site. | * HTML files<br>* JSON files<br>* XML files<br>* CSS files | * Media files like photos, videos, audio<br>* Office files<br>* Text files, PDFs, TXT and RTF<br>* Log and audit files|
 
 ### Things to consider when choosing data storage
 
