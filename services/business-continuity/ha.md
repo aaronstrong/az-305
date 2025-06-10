@@ -1,9 +1,9 @@
 # Design for High Availability
 
 * Identify the availability requirements of Azure resources
-* Recommend a high availability solution for compute
+* Recommend a high availability solution for compute(#High-availability-for-Compute)
 * [Recommend a high availability solution for non-relational data storage](#Design-for-non-relational-data-storage)
-* Recommend a high availability solution for relational data storage
+* [Recommend a high availability solution for relational data storage](#Design-for-relational-data)
 
 ---
 # [What is reliability?](https://learn.microsoft.com/en-us/azure/reliability/overview)
@@ -114,3 +114,11 @@ Nonrelational data is Azure can be stored in several different data objects.
 * **Consider Azure managed disks**. Support Azure virtual machines by using Azure managed disks. These disks are block-level storage volumes managed by Azure. Managed disks perform like physical disks in an on-premises server, but in a virtual environment.
 
 * **Consider Azure Queue Storage**. Use Azure Queue Storage to store large numbers of messages. Queue Storage is commonly used to create a backlog of work to process asynchronously.
+
+
+
+# [Design for relational data](https://learn.microsoft.com/en-us/training/modules/design-data-storage-solution-for-relational-data/)
+
+
+
+# [High availability for Compute](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-high-availability)
