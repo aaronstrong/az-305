@@ -92,7 +92,7 @@ It's common to use multiple Azure regions, paired and nonpaired, when you design
   * Create larger VMs for better performance.
 * **Data Residency**: Ensure that any regions you select are within a data residency boundary that your organization requires.
 
-# Design for data storage
+# Design for non-relational data storage
 
 The first step in your design for Azure Storage is to determine what types of data are required. Data can be classified in three ways: <i>structured, semi-structured, and unstructed</i>.
 
@@ -102,4 +102,15 @@ The first step in your design for Azure Storage is to determine what types of da
 | Structured data is stored in a relational format that has a shared schema. Structure data is ofter contained in a database table with rows, columns, and keys. | Semi-structured data is less organized. The data fields don't fit neatly into tables, rows, and columns. Semi-structured data cotains tags, that clarify how the data is organized. The data is identified buy using a seralized langugage. | Unstructured data is the least organized. This data is a mix of information without a clear relationship. The format of unstructured data is referred to nonrelational. |
 | Relational databases, such as medical records, phone books, and financial accounts. Application data for an e-commerce site. | * HTML files, * JSON files, * XML files | * Media files like photos, videos, audio, * Office files, * Text files, PDFs, TXT and RTF|
 
+### Things to consider when choosing data storage
 
+Nonrelational data is Azure can be stored in several different data objects.
+![](https://learn.microsoft.com/en-us/training/wwl-azure/design-data-storage-solution-for-non-relational-data/media/storage-decision-tree.png)
+
+* **Consider Azure Blob Storage**. Store vast amounts of unstructured data by using Azure Blob Storage. Blob stands for Binary Large Object. Blob Storage is often used for images and multimedia files.
+
+* **Consider Azure Files**. Provide fully managed file shares in the cloud with Azure Files. This storage data is accessible via the industry standard Server Message Block (SMB) protocol, Network File System (NFS) protocol, and the Azure Files REST API.
+
+* **Consider Azure managed disks**. Support Azure virtual machines by using Azure managed disks. These disks are block-level storage volumes managed by Azure. Managed disks perform like physical disks in an on-premises server, but in a virtual environment.
+
+* **Consider Azure Queue Storage**. Use Azure Queue Storage to store large numbers of messages. Queue Storage is commonly used to create a backlog of work to process asynchronously.
