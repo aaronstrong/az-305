@@ -1,7 +1,7 @@
 # Design for High Availability
 
 * Identify the availability requirements of Azure resources
-* Recommend a high availability solution for compute(#High-availability-for-Compute)
+* Recommend a high availability solution for compute(#high-availability-for-compute)
 * [Recommend a high availability solution for non-relational data storage](#Design-for-non-relational-data-storage)
 * [Recommend a high availability solution for relational data storage](#Design-for-relational-data)
 
