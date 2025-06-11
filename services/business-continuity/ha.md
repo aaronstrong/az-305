@@ -161,6 +161,23 @@ Azure Storage offers two options for how your data is replicated in the primary 
  * Write requests to a storage account are done synchrounously. The write operation returns successfully only after the data is written to all replicas across the three availability zones.
 
 
+##### Redundancy in secondary region
+
+Azure Storage offers two options for copying your data to a secondary region:
+
+![](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-redundancy/geo-redundant-storage.png)
+
+* **Geo-Redundant storage (GRS)**
+ * 16 9's of availability
+ * Write operation committed to the primary location. Data is copied synchronously three times to one or more availability zone using LRS. It the copies your data asynchrounsly to a single physical location in a secondary region.
+
+![](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-redundancy/geo-zone-redundant-storage.png)
+
+* **Geo-zone redundant storage (GZRS)**
+  * 16 9's of availability
+  * Data in GZRS is copied across three different AZs in the primary location. It also replicates to a secondary geo-graphical location.
+
+
 
 
 
