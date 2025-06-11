@@ -115,6 +115,50 @@ Nonrelational data is Azure can be stored in several different data objects.
 
 * **Consider Azure Queue Storage**. Use Azure Queue Storage to store large numbers of messages. Queue Storage is commonly used to create a backlog of work to process asynchronously.
 
+### Things to know about a storage account
+
+| Storage Account | Supported Services | Recommended Usage |
+| --- | --- | --- |
+| [Standard genaral usage v2]() | Blob Storage (including Data Lake Storage), Queue Storage, Table Storage, and Azure Files | Standard storage account for most scenarios, including blobs, file shares, queues, tables, and disks (page blobs). |
+| (Premium Block Storage)[] | Blob Storage (including Data Lake Storage) | Recommended for applications with high transaction rates. Use Premium block blobs if you work with smaller objects or require consistently low storage latency |
+| [Premium File Shares]() | Azure Files | Recommended for enterprise or high-performance scale applications. SMB and NFS |
+| [Premium page blobs]() | Page blobs only | Page blobs are ideal for storing index-based and sparse data structures, such as operating systems, data disks for virtual machines, and databases. |
+
+### Things to consider with storage
+
+* **Location** - Store data in a location that most frequently used.
+* **Compliance Requirements** - Any guidelines for keeping data in a specific location? Does company have auditing requirements? 
+* **Data Storage costs** - Geo-redundant vs local, Premium performance and the hot tier, lifecycle management and versioning
+* **Replication**
+* **Data Sensitivity**
+* **Data Isolation**
+
+### [Data Redundancy](https://learn.microsoft.com/en-us/azure/storage/common/storage-redundancy)
+
+Azure Storage always stores multiple copies of your data to protect it from planned and unplanned events. When deciding which redundancy option is best for your scenario, consider the tradeoffs between lower costs and higher availability.
+
+The services that comprise Azure Storage are managed through a common Azure resource called a storage account. The redundancy setting for a storage account is shared for all storage services exposed by that account. All storage resources deployed in the same storage account have the same redundancy setting. Consider isolating different types of resources in separate storage accounts if they have different redundancy requirements.
+
+#### Redundancy in the Primary Location
+
+Azure Storage offers two options for how your data is replicated in the primary region:
+![](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-redundancy/locally-redundant-storage.png)
+* **Locally Redundant storage (LRS)** - Replicates data three times in a single data center. Does NOT replicate across Availability Zones.
+  * 11 9's of availability
+  * Lowest cost redundant option
+  * Least durable option
+  * Write requests to a storage account are done synchronously. The write operations returns successful only after the write is written to all 3 replicas.
+![](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-redundancy/zone-redundant-storage.png)
+* **Zone Redundant Storage (ZRS)** - copies your data syncrhonously across three AZs in the primary region.
+> [!NOTE]
+> Microsoft recommends using ZRS in the primary region for Azure Data Lake Storage workloads.
+ * 12 9's of availability
+ * Data remains available for both read and write if a zone become unavailable.
+ * Write requests to a storage account are done synchrounously. The write operation returns successfully only after the data is written to all replicas across the three availability zones.
+
+
+
+
 
 
 # [Design for relational data](https://learn.microsoft.com/en-us/training/modules/design-data-storage-solution-for-relational-data/)
