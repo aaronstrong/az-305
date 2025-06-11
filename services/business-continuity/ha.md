@@ -201,3 +201,32 @@ Azure Storage offers two options for copying your data to a secondary region:
 
 
 # [High availability for Compute](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-high-availability)
+
+### Availability and durability of managed disks
+
+Managed disks are designed for 99.999% availability and provide at least 99.999999999% (11 9's) of durability. With managed disks your data is replicated three times. Managed disks have two redundancy models, locally redundant storage (LRS) disks, and zone-redundant storage (ZRS) disks.
+
+| Locally Redundant Storage (LRS) Disks | Zone Redundant storage (ZRS) disks) |
+| --- | --- |
+| ![](https://learn.microsoft.com/en-us/azure/virtual-machines/media/disks-high-availability/disks-lrs-zrs-diagram.png) | ![](https://learn.microsoft.com/en-us/azure/virtual-machines/media/disks-high-availability/disks-lrs-zrs-diagram.png) |
+| 11 9's of durability | 12 9's of durability|
+
+### Recommendations for apps running on a single VM
+
+Apps running on a single VM can't benefit from replication across multiple VM's, but the data on the disks is still replicated three times. Here are steps to further increase availability:
+
+#### Use Ultra Disks, Premium SSD v2, or Premium SSD
+
+Using these disks provide the greatest performance and highest single VM uptime SLA.
+
+#### Use Zone-redundant storage disks
+
+Zone-redundant storage (ZRS) disks synchronously replicate data across three availability zones, which are separated groups of data centers in a region. ZRS disks your data is accessible eeven in the event of zonal outage.
+
+### Recommendations for applications running on multiple VMs
+
+Quorum-based applications, clustered databases (SQL, MongoDB), enterprise-grade web apps, are examples of apps running on multiple VMs. Multiple VMs can designate a primary VM and multiple secondary Vms and replicate data across these VMs. This setup enables failover to a secondary VM if primary goes down.
+
+#### Distribute VMs and disks across AZs
+
+VMs distributed across multiple AZs may have higher network latency than VMs distributed in a single availability zone, which could be a concern for workloads that require ultra-low latency. 
