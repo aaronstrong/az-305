@@ -177,7 +177,14 @@ Azure Storage offers two options for copying your data to a secondary region:
   * 16 9's of availability
   * Data in GZRS is copied across three different AZs in the primary location. It also replicates to a secondary geo-graphical location.
 
+#### Azure Blob Storage
 
+| Comparison | Hot Access Tier | Cool Access Tier | Cold Access Tier | Archive Access Tier | 
+| --- | --- | --- | --- | --- |
+| Availability | 99.9% |  99% | 99% | 99% |
+| Availability (RA-GRS) | 99.99% | 99.9% |  99.9% |  99.9% |
+| Latency (time to first byte) | milliseconds | milliseconds | milliseconds | hours |
+| Minimum storage duration | NA | 30 days | 90 days | 180 days |
 
 
 
