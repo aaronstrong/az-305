@@ -142,13 +142,17 @@ The services that comprise Azure Storage are managed through a common Azure reso
 #### Redundancy in the Primary Location
 
 Azure Storage offers two options for how your data is replicated in the primary region:
+
 ![](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-redundancy/locally-redundant-storage.png)
+
 * **Locally Redundant storage (LRS)** - Replicates data three times in a single data center. Does NOT replicate across Availability Zones.
   * 11 9's of availability
   * Lowest cost redundant option
   * Least durable option
   * Write requests to a storage account are done synchronously. The write operations returns successful only after the write is written to all 3 replicas.
+    
 ![](https://learn.microsoft.com/en-us/azure/storage/common/media/storage-redundancy/zone-redundant-storage.png)
+
 * **Zone Redundant Storage (ZRS)** - copies your data syncrhonously across three AZs in the primary region.
 > [!NOTE]
 > Microsoft recommends using ZRS in the primary region for Azure Data Lake Storage workloads.
