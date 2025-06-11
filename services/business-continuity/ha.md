@@ -198,4 +198,6 @@ Azure Storage offers two options for copying your data to a secondary region:
 | SQL Virtual Machine 	| Single instance  | Instance pool 	| Single database 	| Elastic Pool	|
 | * SQL SErver and OS Server Acces<br>* Exapnsiave SQL and OS Version Support<br>* Automated manageability features 	| * SQL Server surface areas (vast majority)<br>* Native virtual network support<br>* Fully managed service 	| *Resource sharing between multiple instances to price optimize<br>* Simplified performance management for multiple databases<br>* Fully managed service 	| * Hypterscale storage up to 100TB<br>* Serverless compute<br>* Fully managed service 	| * Resource sharing between multiple databases to price optimize<br>* Simplified performance management for multiple databases<br>* Fully managed service 	|
 
+
+
 # [High availability for Compute](https://learn.microsoft.com/en-us/azure/virtual-machines/disks-high-availability)
