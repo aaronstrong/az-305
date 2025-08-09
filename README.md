@@ -16,10 +16,10 @@ These are my notes for studying for the AZ-305 exam.
 
 Skills Measured as of Oct 8, 2022
 
-* Design identity, governance, and monitoring solutions (25-30%)
-* Design data storage solutions (25-30%)
-* Design business continuity solutions (10-15%)
-* Design infrastructure solutions (25-30%)
+* [Design identity, governance, and monitoring solutions (25-30%)](./services/identity-gov-monitoring/README.md)
+* [Design data storage solutions (25-30%)](./services/storage/README.md)
+* [Design business continuity solutions (10-15%)](./services/business-continuity/README.md)
+* [Design infrastructure solutions (25-30%)](./services/infrastructure/README.md)
 
 ## My Notes and Labs for the exam
 
