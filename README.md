@@ -36,6 +36,12 @@ Skills Measured as of Oct 8, 2022
 | FreeCodeCamp.org | [AZ 305 Solutions Architect Exam - 9:55:05 - Released Nov, 2023](https://www.youtube.com/watch?v=i6NzKvGUsBs) |
 | John Savill | [AZ 305 Designing Azure Infrastructure - 3:38:34 - Released Nov, 2021](https://www.youtube.com/watch?v=vq9LuCM4YP4) |
 
+Self Learning classes
+
+|  |  |
+| --- | --- |
+| Self learning class | [Exam AZ-305: Design Microsoft Azure Infrastrucgture Solutions](https://learn.microsoft.com/en-us/credentials/certifications/exams/az-305/?wt.mc_id=esi_videos_youtube_wwl_coursevideos) |
+
 ## Practice Exams
 
 |  |  |
