@@ -28,12 +28,13 @@ Skills Measured as of Oct 8, 2022
 | Notes | [My Notes on services](./services/README.md) |
 | Labs | [Code or ways to reproduce a particular service](./labs/README.md) |
 
+
 ## Community Labs
 
 |  |  |
 | --- | --- |
 | Mattias-fjellstrom | [Azure 101 static web app](https://github.com/mattias-fjellstrom/azure-101-static-web-app) |
-
+| Futurice | [Futurice Terraform Examples](https://github.com/futurice/terraform-examples?tab=readme-ov-file#azure-examples) |
 
 ## Self Learning Videos
 
