@@ -20,6 +20,7 @@ Skills Measured as of Oct 8, 2022
 * [Design data storage solutions (25-30%)](./services/storage/README.md)
 * [Design business continuity solutions (10-15%)](./services/business-continuity/README.md)
 * [Design infrastructure solutions (25-30%)](./services/infrastructure/README.md)
+* [Azure Architecture Design Prereqs](./services/azure-architecture-design/README.md)
 
 ## My Notes and Labs for the exam
 

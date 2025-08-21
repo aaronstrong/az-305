@@ -4,3 +4,4 @@
 * [Design data storage solutions (25-30%)](./storage/README.md)
 * [Design business continuity solutions (10-15%)](./business-continuity/README.md)
 * [Design infrastructure solutions (25-30%)](./infrastructure/README.md)
+* [Microsoft Azure Architecture Design](./azure-architecture-design/README.md)

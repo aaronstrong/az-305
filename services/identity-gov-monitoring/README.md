@@ -10,7 +10,7 @@
 * Recommend an identity management solution
 * Recommend a solution for securing identities
 
-## Design governance
+## [Design governance](#design-governance)
 * Recommend an organizational and hierarchical structure for Azure resources
 * Recommend a solution for enforcing and auditing compliance
 
@@ -99,7 +99,7 @@ Workspace deployment models include centralized, decentralized (aka distributed)
 
 ## [Design governance](https://www.youtube.com/watch?v=3MJBEwEbAMU&list=PLahhVEj9XNTejs0fgXT6HXaj_a_qsUoKa&index=1)
 
-Governance within the Azure Well-Architected Framework isn't specifically tied to a single pillar but rahter cuts across multiple pillars, particularly:
+Governance within the Azure Well-Architected Framework isn't specifically tied to a single pillar but rather cuts across multiple pillars, particularly:
 * **Operational Excellence**
 * **Security**
 * **Cost Optimization**
