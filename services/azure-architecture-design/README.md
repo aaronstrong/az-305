@@ -14,13 +14,13 @@ The [Cloud Adoption Framework](https://learn.microsoft.com/en-us/azure/cloud-ado
 
 The Cloud Adoption Framework includes eight technologies:
 
-* Strategy
-* Plan
-* Ready
-* Migrate
-* Innovate
-* Govern
-* Manage
+* [Strategy](#strategy)
+* [Plan](#plan)
+* [Ready](#ready)
+* [Migrate](#migrate)
+* [Innovate]()
+* [Govern](#govern)
+* [Manage](#manage)
 * Secure
 
 ### Strategy
